@@ -5,9 +5,8 @@ define('MODEL_PATH', 'model');
 define('VIEWS_PATH', 'views');
 define('SYSTEM_PATH', 'system');
 
-// 載入 router
-include_once(SYSTEM_PATH . "/route.php");
-include_once(SYSTEM_PATH . "/controller.php");
+// 載入 framework 核心
+include_once(SYSTEM_PATH . "/core.php");
 
 // 載入 controller
 include (CONTROLLER_PATH . "/{$controller}.php");
