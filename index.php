@@ -1,37 +1,17 @@
 <?php
-echo "index.php<br>";
-echo "REQUEST_URI = " . $_SERVER['REQUEST_URI'] . "<br>";
-echo "route = <pre>" . print_r(route(), true) . "</pre>";
+// 常數宣告
+define('CONTROLLER_PATH', 'controller');
+define('MODEL_PATH', 'model');
+define('VIEWS_PATH', 'views');
+define('SYSTEM_PATH', 'system');
 
-function route()
-{
-    $URI = $_SERVER['REQUEST_URI'];
-    $tmp = explode('/', $URI);
-    if (count($tmp) == 1) return FALSE;
+// 載入 router
+include_once(SYSTEM_PATH . "/route.php");
+include_once(SYSTEM_PATH . "/controller.php");
 
-    $_args = array();
-    $arg_num = 0;
-    for ($i=1, $i_max=count($tmp); $i < $i_max; $i++) 
-    { 
-        if ($i == 1)
-        {
-            $controller = $tmp[$i];
-        }
-        else if ($i == 2)
-        {
-            $method = $tmp[$i];
-        }
-        else
-        {
-            $_args[] = $tmp[$i];
-        }
-    }
+// 載入 controller
+include (CONTROLLER_PATH . "/{$controller}.php");
 
-    return array
-    (
-        'controller' => $controller,
-        'method'     => $method,
-        'args'       => $_args
-    );
-}
-?>
+// 實體化
+eval("\$INSTANCE = new $controller();");
+$INSTANCE->$method();
